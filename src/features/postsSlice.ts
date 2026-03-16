@@ -16,8 +16,8 @@ interface PostsState {
 const initialState: PostsState = { loaded: false, hasError: false, items: [] };
 
 export const fetchPostsByUser = createAsyncThunk<Post[], number>(
-  'posts/fetchByUser',
-  async userId => {
+  'posts/fetch',
+  async (userId: number) => {
     const res = await fetch(
       `https://jsonplaceholder.typicode.com/posts?userId=${userId}`,
     );
@@ -29,18 +29,6 @@ export const fetchPostsByUser = createAsyncThunk<Post[], number>(
     return (await res.json()) as Post[];
   },
 );
-
-export const fetchPosts = createAsyncThunk<Post[]>('posts/fetch', async () => {
-  const res = await fetch(
-    `https://jsonplaceholder.typicode.com/posts?userId=${userId}`,
-  );
-
-  if (!res.ok) {
-    throw new Error('Network error');
-  }
-
-  return (await res.json()) as Post[];
-});
 
 const postsSlice = createSlice({
   name: 'posts',
@@ -58,24 +46,6 @@ const postsSlice = createSlice({
 
   extraReducers: builder => {
     builder
-      .addCase(fetchPosts.pending, state => {
-        // eslint-disable-next-line no-param-reassign
-        state.loaded = false;
-        // eslint-disable-next-line no-param-reassign
-        state.hasError = false;
-      })
-      .addCase(fetchPosts.fulfilled, (state, action) => {
-        // eslint-disable-next-line no-param-reassign
-        state.loaded = true;
-        // eslint-disable-next-line no-param-reassign
-        state.items = action.payload;
-      })
-      .addCase(fetchPosts.rejected, state => {
-        // eslint-disable-next-line no-param-reassign
-        state.loaded = true;
-        // eslint-disable-next-line no-param-reassign
-        state.hasError = true;
-      })
       .addCase(fetchPostsByUser.pending, state => {
         // eslint-disable-next-line no-param-reassign
         state.loaded = false;

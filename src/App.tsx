@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { useCallback } from 'react';
 import type { RootState, AppDispatch } from './app/store';
+import { User } from '../src/types/User';
 import { fetchPostsByUser, clearPosts } from './features/postsSlice';
 import { setSelectedPost } from './features/selectedPostSlice';
 import classNames from 'classnames';
@@ -38,6 +40,12 @@ export const App = () => {
     dispatch(setAuthor(u ? u.id : null));
   };
 
+  const handlePostSelected = useCallback(
+    (id: number | null) => {
+      dispatch(setSelectedPost(id));
+    },
+    [dispatch],
+  );
   const usersLoaded = useSelector((s: RootState) => s.users.loaded);
 
   useEffect(() => {

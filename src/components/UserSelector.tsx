@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { User } from '../types/User';
 
 type Props = {
   users: User[];
