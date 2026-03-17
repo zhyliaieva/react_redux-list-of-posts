@@ -2,11 +2,16 @@ import { useState, useEffect } from 'react';
 import { fetchCommentsByPost } from '../features/commentsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, AppDispatch } from '../app/store';
+import  { Comment } from '../types/Comment';
 import { Loader } from './Loader';
 import { NewCommentForm } from './NewCommentForm';
 import { Post } from '../types/Post';
 
-import { clearComments, addComment } from '../features/commentsSlice';
+import {
+  clearComments,
+  addComment,
+  removeComment,
+} from '../features/commentsSlice';
 
 type Props = {
   post: Post;
